@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.sql.SQLException;
 
 /**
@@ -13,8 +10,13 @@ import java.sql.SQLException;
  * @description
  * @date 2018/5/23 16:05
  */
-public class MainJFrame implements ActionListener, ItemListener {
+public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     private JFrame jf = new JFrame("haha point");          // 创建窗口
+    private JMenuBar jMenuBar;
+    private JMenu config;
+    private JMenuItem  loadConfig;
+    private JMenuItem  savaConfig;
+    private JMenuItem  initConfig;
     private JPanel panelLine1;//创建中间容器（面板容器）
     private JLabel databaseTypeText;
     private JComboBox databaseTypeComboBox;
@@ -97,12 +99,26 @@ public class MainJFrame implements ActionListener, ItemListener {
         jf.add(panelLine5);
         //panelLine6.setLayout(new FlowLayout(FlowLayout.LEFT,12,5));
         //jf.add(panelLine6);
-        js.setPreferredSize(new Dimension(400,700));
+        js.setPreferredSize(new Dimension(400, 700));
         jf.add(js);
 
+        jf.setJMenuBar(jMenuBar);
     }
 
     private void initView() {
+        jMenuBar = new JMenuBar();
+        config=new JMenu("配置");
+        loadConfig = new JMenuItem ("保存配置");
+        savaConfig = new JMenuItem ("加载配置");
+        initConfig = new JMenuItem ("还原配置");
+        jMenuBar.add(config);
+        config.add(loadConfig);
+        config.add(savaConfig);
+        config.add(initConfig);
+        initConfig.addMouseListener(this);
+        savaConfig.addMouseListener(this);
+        loadConfig.addMouseListener(this);
+
         panelLine1 = new JPanel();
         databaseTypeText = new JLabel("数据库");
 
@@ -201,7 +217,7 @@ public class MainJFrame implements ActionListener, ItemListener {
 
         showText = new JTextArea();
         showText.setMargin(new Insets(10, 10, 10, 10));
-        showText.setFont(new Font(Font.DIALOG_INPUT,Font.PLAIN,14));
+        showText.setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 14));
         js = new JScrollPane(showText);
         js.setHorizontalScrollBarPolicy(
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -338,5 +354,30 @@ public class MainJFrame implements ActionListener, ItemListener {
                 jf.setVisible(true);
             }
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
