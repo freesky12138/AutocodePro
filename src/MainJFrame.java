@@ -28,7 +28,7 @@ public class MainJFrame implements ActionListener, ItemListener {
     private JLabel pwdText;
     private JTextField pwdEdit;
     private JLabel databaseInstanceText;
-    private JTextField DatabaseInstanceEdit;
+    private JTextField databaseInstanceEdit;
 
     private JPanel panelLine3;
     private JLabel tableNameText;
@@ -42,7 +42,7 @@ public class MainJFrame implements ActionListener, ItemListener {
      */
     private JPanel panelLine4;
     private JPanel panelLine5;
-    private ButtonGroup jFieldWordType;//驼峰，小写，大写
+    private ButtonGroup jFieldWordType;//
     private JRadioButton humpWordType;//驼峰，小写，大写
     private JRadioButton lowercaseWordType;//驼峰，小写，大写
     private JRadioButton uppercaseWordType;
@@ -126,14 +126,14 @@ public class MainJFrame implements ActionListener, ItemListener {
         pwdEdit = new JTextField("123456");
         pwdEdit.setColumns(12);
         databaseInstanceText = new JLabel("数据库实例名");
-        DatabaseInstanceEdit = new JTextField("1521");
-        DatabaseInstanceEdit.setColumns(6);
+        databaseInstanceEdit = new JTextField("1521");
+        databaseInstanceEdit.setColumns(6);
         panelLine2.add(userNameText);
         panelLine2.add(userNameEdit);
         panelLine2.add(pwdText);
         panelLine2.add(pwdEdit);
         panelLine2.add(databaseInstanceText);
-        panelLine2.add(DatabaseInstanceEdit);
+        panelLine2.add(databaseInstanceEdit);
 
 
         panelLine3 = new JPanel();
@@ -210,30 +210,62 @@ public class MainJFrame implements ActionListener, ItemListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        errorDialog.showDialog(jf,"sadf","asdf");
+        errorDialog.showDialog(jf, "sadf", "asdf");
         if (e.getSource() == creatBtn) {
-            if(Tool.strIsEmpty(ipEdit.getText())){
-                errorDialog.showDialog(jf,"警告","IP不能为空");
+            if (Tool.strIsEmpty(ipEdit.getText())) {
+                errorDialog.showDialog(jf, "警告", "IP不能为空");
             }
 
-            if(Tool.strIsEmpty(portEdit.getText())){
-                errorDialog.showDialog(jf,"警告","端口不能为空");
+            if (Tool.strIsEmpty(portEdit.getText())) {
+                errorDialog.showDialog(jf, "警告", "端口不能为空");
             }
 
-            if(Tool.strIsEmpty(userNameEdit.getText())){
-                errorDialog.showDialog(jf,"警告","用户名不能为空");
+            if (Tool.strIsEmpty(userNameEdit.getText())) {
+                errorDialog.showDialog(jf, "警告", "用户名不能为空");
             }
 
-            if(Tool.strIsEmpty(pwdEdit.getText())){
-                errorDialog.showDialog(jf,"警告","密码不能为空");
+            if (Tool.strIsEmpty(pwdEdit.getText())) {
+                errorDialog.showDialog(jf, "警告", "密码不能为空");
             }
 
-            if(Tool.strIsEmpty(DatabaseInstanceEdit.getText())){
-                errorDialog.showDialog(jf,"警告","实例不能为空");
+            if (Tool.strIsEmpty(databaseInstanceEdit.getText())) {
+                errorDialog.showDialog(jf, "警告", "实例不能为空");
             }
 
-            if(Tool.strIsEmpty(tableNameEdit.getText())){
-                errorDialog.showDialog(jf,"警告","表名不能为空");
+            if (Tool.strIsEmpty(tableNameEdit.getText())) {
+                errorDialog.showDialog(jf, "警告", "表名不能为空");
+            }
+
+            DataInfo dataInfo = new DataInfo();
+            dataInfo.setDatabaseType(databaseTypeComboBox.getSelectedIndex());
+            dataInfo.setIp(ipEdit.getText());
+            dataInfo.setPort(portEdit.getText());
+            dataInfo.setUserName(userNameEdit.getText());
+            dataInfo.setPwd(pwdEdit.getText());
+            dataInfo.setDatabaseInstance(databaseInstanceEdit.getText());
+            dataInfo.setTableName(tableNameEdit.getText());
+            dataInfo.setActionType(actionTypeComboBox.getSelectedIndex());
+
+            while (jFieldWordType.getElements().hasMoreElements()) {
+                AbstractButton abstractButton = jFieldWordType.getElements().nextElement();
+                if (abstractButton == humpWordType) {
+                    dataInfo.setjFieldWordType(0);
+                } else if (abstractButton == lowercaseWordType) {
+                    dataInfo.setjFieldWordType(1);
+                } else {
+                    dataInfo.setjFieldWordType(2);
+                }
+            }
+            if (actionTypeComboBox.getSelectedIndex() == 0) {
+                dataInfo.setDateAnnotation(dateAnnotation.isSelected());
+                dataInfo.setDateAnnotationType(dateAnnotationType.getText());
+                dataInfo.setDateIsString(dateIsString.isSelected());
+                dataInfo.setNullAnnotation(isNullAnnotation.isSelected());
+                dataInfo.setLengthAnnotation(isNullAnnotation.isSelected());
+                dataInfo.setRemarksAnnotation(isRemarksAnnotation.isSelected());
+            } else {
+                dataInfo.setRemarksAnnotation(isRemarksAnnotation.isSelected());
+                dataInfo.setPrefixEdit(prefixEdit.getText());
             }
         }
     }
