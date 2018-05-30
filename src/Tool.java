@@ -6,10 +6,31 @@
  * @date 2018/5/29 19:54
  */
 public class Tool {
-    public static boolean strIsEmpty(String data){
-        if(null==data|| "".equals(data)){
-            return false;
+    public static boolean strIsEmpty(String data) {
+        if (null == data || "".equals(data)) {
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    public static String toHump(String in) {
+        String out = "";
+        boolean nextBig = false;
+        for (int i = 0; i < in.length(); i++) {
+            if (in.charAt(i) == '_') {
+                nextBig = true;
+                continue;
+            }
+
+            if (nextBig == true) {
+                char temp= (char) (in.charAt(i) - 32);
+                out += temp;
+                nextBig=false;
+            }else {
+                out += in.charAt(i);
+            }
+
+        }
+        return out;
     }
 }

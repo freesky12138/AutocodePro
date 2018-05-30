@@ -10,6 +10,30 @@ public class StatusAdapter {
 
     private static String[] databaseTypeStrs = {"Oracle", "Mysql"};
 
+    private static String[] databaseColumType = {"VARCHAR2", "DATE", "NUMBER","varchar","datetime","int"};
+    private static String[] databaseColumTypeToJFile = {"String", "Date", "Double","String", "Date", "Double"};
+    private static String[] databaseColumTypeToMybatis = {"VARCHAR", "DATE", "NUMERIC","VARCHAR", "DATE", "NUMERIC"};
+
+    public static String getDatabaseColumType(String str) {
+
+        for (int i = 0; i < databaseColumType.length; i++) {
+            if (str.equals(databaseColumType[i])) {
+                return databaseColumTypeToJFile[i];
+            }
+        }
+        return str;
+    }
+
+    public static String getDatabaseColumToMybatis(String str) {
+
+        for (int i = 0; i < databaseColumType.length; i++) {
+            if (str.equals(databaseColumType[i])) {
+                return databaseColumTypeToMybatis[i];
+            }
+        }
+        return str;
+    }
+
     public static int getActionTypeStrs(String str) {
         if (str.equals(actionTypeStrs[0])) {
             return 0;
@@ -39,5 +63,21 @@ public class StatusAdapter {
 
     public static void setDatabaseTypeStrs(String[] databaseTypeStrs) {
         StatusAdapter.databaseTypeStrs = databaseTypeStrs;
+    }
+
+    public static String[] getDatabaseColumType() {
+        return databaseColumType;
+    }
+
+    public static void setDatabaseColumType(String[] databaseColumType) {
+        StatusAdapter.databaseColumType = databaseColumType;
+    }
+
+    public static String[] getDatabaseColumTypeToJFile() {
+        return databaseColumTypeToJFile;
+    }
+
+    public static void setDatabaseColumTypeToJFile(String[] databaseColumTypeToJFile) {
+        StatusAdapter.databaseColumTypeToJFile = databaseColumTypeToJFile;
     }
 }

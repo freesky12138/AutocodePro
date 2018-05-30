@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
 
 /**
  * @author hyp 1774549483@qq.com
@@ -13,7 +14,7 @@ import java.awt.event.ItemListener;
  * @date 2018/5/23 16:05
  */
 public class MainJFrame implements ActionListener, ItemListener {
-    private JFrame jf = new JFrame("测试窗口");          // 创建窗口
+    private JFrame jf = new JFrame("haha point");          // 创建窗口
     private JPanel panelLine1;//创建中间容器（面板容器）
     private JLabel databaseTypeText;
     private JComboBox databaseTypeComboBox;
@@ -64,7 +65,8 @@ public class MainJFrame implements ActionListener, ItemListener {
 
 
     private JButton creatBtn;
-    private JTextField showText;
+    private JTextArea showText;
+    private JScrollPane js;
 
     public MainJFrame() {
         initJFrame();
@@ -95,7 +97,8 @@ public class MainJFrame implements ActionListener, ItemListener {
         jf.add(panelLine5);
         //panelLine6.setLayout(new FlowLayout(FlowLayout.LEFT,12,5));
         //jf.add(panelLine6);
-        jf.add(showText);
+        js.setPreferredSize(new Dimension(400,700));
+        jf.add(js);
 
     }
 
@@ -105,10 +108,10 @@ public class MainJFrame implements ActionListener, ItemListener {
 
         databaseTypeComboBox = new JComboBox(StatusAdapter.getDatabaseTypeStrs());
         ipText = new JLabel("IP地址");
-        ipEdit = new JTextField("127.0.0.1");
+        ipEdit = new JTextField("118.24.120.211");
         ipEdit.setColumns(12);
         portText = new JLabel("端口");
-        portEdit = new JTextField("1521");
+        portEdit = new JTextField("3306");
         portEdit.setColumns(6);
         panelLine1.add(databaseTypeText);
         panelLine1.add(databaseTypeComboBox);
@@ -120,13 +123,13 @@ public class MainJFrame implements ActionListener, ItemListener {
 
         panelLine2 = new JPanel();
         userNameText = new JLabel("用户名");
-        userNameEdit = new JTextField("test");
+        userNameEdit = new JTextField("root");
         userNameEdit.setColumns(12);
         pwdText = new JLabel("密码");
-        pwdEdit = new JTextField("123456");
+        pwdEdit = new JTextField("W9EhiSonxh2E");
         pwdEdit.setColumns(12);
         databaseInstanceText = new JLabel("数据库实例名");
-        databaseInstanceEdit = new JTextField("1521");
+        databaseInstanceEdit = new JTextField("db_tutor");
         databaseInstanceEdit.setColumns(6);
         panelLine2.add(userNameText);
         panelLine2.add(userNameEdit);
@@ -138,7 +141,7 @@ public class MainJFrame implements ActionListener, ItemListener {
 
         panelLine3 = new JPanel();
         tableNameText = new JLabel("表名");
-        tableNameEdit = new JTextField("123");
+        tableNameEdit = new JTextField("m_user");
         tableNameEdit.setColumns(24);
         actionTypeText = new JLabel("生成类型");
 
@@ -164,6 +167,7 @@ public class MainJFrame implements ActionListener, ItemListener {
         jFieldWordType.add(humpWordType);
         jFieldWordType.add(lowercaseWordType);
         jFieldWordType.add(uppercaseWordType);
+        jFieldWordType.setSelected(uppercaseWordType.getModel(), true);
 
 
         isNullAnnotation = new JCheckBox("非空注解");
@@ -195,7 +199,15 @@ public class MainJFrame implements ActionListener, ItemListener {
         panelLine6.add(uppercaseWordType);
         panelLine6.add(isRemarksAnnotation);*/
 
-        showText = new JTextField();
+        showText = new JTextArea();
+        showText.setMargin(new Insets(10, 10, 10, 10));
+        showText.setFont(new Font(Font.DIALOG_INPUT,Font.PLAIN,14));
+        js = new JScrollPane(showText);
+        js.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        js.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
     }
 
     /**
@@ -210,7 +222,6 @@ public class MainJFrame implements ActionListener, ItemListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        errorDialog.showDialog(jf, "sadf", "asdf");
         if (e.getSource() == creatBtn) {
             if (Tool.strIsEmpty(ipEdit.getText())) {
                 errorDialog.showDialog(jf, "警告", "IP不能为空");
@@ -246,26 +257,52 @@ public class MainJFrame implements ActionListener, ItemListener {
             dataInfo.setTableName(tableNameEdit.getText());
             dataInfo.setActionType(actionTypeComboBox.getSelectedIndex());
 
-            while (jFieldWordType.getElements().hasMoreElements()) {
-                AbstractButton abstractButton = jFieldWordType.getElements().nextElement();
-                if (abstractButton == humpWordType) {
-                    dataInfo.setjFieldWordType(0);
-                } else if (abstractButton == lowercaseWordType) {
-                    dataInfo.setjFieldWordType(1);
-                } else {
-                    dataInfo.setjFieldWordType(2);
-                }
+            if (humpWordType.isSelected()) {
+                dataInfo.setjFieldWordType(0);
+            } else if (lowercaseWordType.isSelected()) {
+                dataInfo.setjFieldWordType(1);
+            } else {
+                dataInfo.setjFieldWordType(2);
             }
             if (actionTypeComboBox.getSelectedIndex() == 0) {
                 dataInfo.setDateAnnotation(dateAnnotation.isSelected());
                 dataInfo.setDateAnnotationType(dateAnnotationType.getText());
                 dataInfo.setDateIsString(dateIsString.isSelected());
                 dataInfo.setNullAnnotation(isNullAnnotation.isSelected());
-                dataInfo.setLengthAnnotation(isNullAnnotation.isSelected());
+                dataInfo.setLengthAnnotation(lengthAnnotation.isSelected());
                 dataInfo.setRemarksAnnotation(isRemarksAnnotation.isSelected());
             } else {
                 dataInfo.setRemarksAnnotation(isRemarksAnnotation.isSelected());
                 dataInfo.setPrefixEdit(prefixEdit.getText());
+            }
+            try {
+                if (dataInfo.getDatabaseType() == 0) {
+                    if (dataInfo.getActionType() == 0) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getJavaFile());
+                    } else if (dataInfo.getActionType() == 1) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getSelectSql());
+                    } else if (dataInfo.getActionType() == 2) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getInsertSql());
+                    } else if (dataInfo.getActionType() == 3) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getUpdateSql());
+                    } else if (dataInfo.getActionType() == 4) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getDeleteSql());
+                    }
+                } else {
+                    if (dataInfo.getActionType() == 0) {
+                        showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getJavaFile());
+                    } else if (dataInfo.getActionType() == 1) {
+                        showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getSelectSql());
+                    } else if (dataInfo.getActionType() == 2) {
+                        showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getInsertSql());
+                    } else if (dataInfo.getActionType() == 3) {
+                        showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getUpdateSql());
+                    } else if (dataInfo.getActionType() == 4) {
+                        showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getDeleteSql());
+                    }
+                }
+            } catch (SQLException e1) {
+                errorDialog.showDialog(jf, "警告", "数据库连接信息错误");
             }
         }
     }
