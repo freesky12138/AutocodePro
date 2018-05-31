@@ -30,7 +30,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     private JLabel userNameText;
     private JTextField userNameEdit;
     private JLabel pwdText;
-    private JTextField pwdEdit;
+    private JPasswordField pwdEdit;
     private JLabel databaseInstanceText;
     private JTextField databaseInstanceEdit;
 
@@ -149,7 +149,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
         userNameEdit = new JTextField("root");
         userNameEdit.setColumns(12);
         pwdText = new JLabel("密码");
-        pwdEdit = new JTextField("W9EhiSonxh2E");
+        pwdEdit = new JPasswordField("W9EhiSonxh2E");
         pwdEdit.setColumns(12);
         databaseInstanceText = new JLabel("数据库实例名");
         databaseInstanceEdit = new JTextField("db_tutor");
