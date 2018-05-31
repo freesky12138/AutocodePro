@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -14,9 +15,9 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     private JFrame jf = new JFrame("haha point");          // 创建窗口
     private JMenuBar jMenuBar;
     private JMenu config;
-    private JMenuItem  loadConfig;
-    private JMenuItem  savaConfig;
-    private JMenuItem  initConfig;
+    private JMenuItem loadConfig;
+    private JMenuItem savaConfig;
+    private JMenuItem initConfig;
     private JPanel panelLine1;//创建中间容器（面板容器）
     private JLabel databaseTypeText;
     private JComboBox databaseTypeComboBox;
@@ -70,6 +71,10 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     private JTextArea showText;
     private JScrollPane js;
 
+
+    //读取保存配置
+    private DatabaseDao databaseDao = new DatabaseDao();
+
     public MainJFrame() {
         initJFrame();
 
@@ -107,22 +112,24 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
 
     private void initView() {
         jMenuBar = new JMenuBar();
-        config=new JMenu("配置");
-        loadConfig = new JMenuItem ("保存配置");
-        savaConfig = new JMenuItem ("加载配置");
-        initConfig = new JMenuItem ("还原配置");
+        config = new JMenu("配置");
+        loadConfig = new JMenuItem("加载配置");
+        savaConfig = new JMenuItem("保存配置");
+        initConfig = new JMenuItem("还原配置");
+        initConfig.addMouseListener(this);
+        savaConfig.addMouseListener(this);
+        loadConfig.addMouseListener(this);
         jMenuBar.add(config);
         config.add(loadConfig);
         config.add(savaConfig);
         config.add(initConfig);
-        initConfig.addMouseListener(this);
-        savaConfig.addMouseListener(this);
-        loadConfig.addMouseListener(this);
+
 
         panelLine1 = new JPanel();
         databaseTypeText = new JLabel("数据库");
 
         databaseTypeComboBox = new JComboBox(StatusAdapter.getDatabaseTypeStrs());
+        databaseTypeComboBox.setSelectedIndex(1);
         ipText = new JLabel("IP地址");
         ipEdit = new JTextField("118.24.120.211");
         ipEdit.setColumns(12);
@@ -223,6 +230,15 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         js.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        DataInfo dataInfo = null;
+        try {
+            dataInfo = databaseDao.loadDataInfo();
+            setViewConfig(dataInfo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -359,11 +375,58 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
+
+    }
+
+    private void setViewConfig(DataInfo dataInfo) {
+        if(dataInfo!=null){
+            databaseTypeComboBox.setSelectedIndex(dataInfo.getDatabaseType());
+            ipEdit.setText(dataInfo.getIp());
+            portEdit.setText(dataInfo.getPort());
+            userNameEdit.setText(dataInfo.getUserName());
+            pwdEdit.setText(dataInfo.getPwd());
+            databaseInstanceEdit.setText(dataInfo.getDatabaseInstance());
+            tableNameEdit.setText(dataInfo.getTableName());
+        }
+    }
+
+    private DataInfo getViewConifg() {
+        DataInfo dataInfo = new DataInfo();
+        dataInfo.setDatabaseType(databaseTypeComboBox.getSelectedIndex());
+        dataInfo.setIp(ipEdit.getText());
+        dataInfo.setPort(portEdit.getText());
+        dataInfo.setUserName(userNameEdit.getText());
+        dataInfo.setPwd(pwdEdit.getText());
+        dataInfo.setDatabaseInstance(databaseInstanceEdit.getText());
+        dataInfo.setTableName(tableNameEdit.getText());
+        return dataInfo;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        try {
+            if (e.getSource() == loadConfig) {
+                DataInfo dataInfo = databaseDao.loadDataInfo();
+                setViewConfig(dataInfo);
+            } else if (e.getSource() == savaConfig) {
+                DataInfo dataInfo = getViewConifg();
+                databaseDao.saveDataInfo(dataInfo);
+            } else if (e.getSource() == initConfig) {
+                DataInfo dataInfo=new DataInfo();
+                dataInfo.setDatabaseType(1);
+                dataInfo.setIp("118.24.120.211");
+                dataInfo.setPort("3306");
+                dataInfo.setUserName("root");
+                dataInfo.setPwd("W9EhiSonxh2E");
+                dataInfo.setDatabaseInstance("db_tutor");
+                dataInfo.setTableName("m_user");
+                setViewConfig(dataInfo);
+                databaseDao.saveDataInfo(dataInfo);
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            errorDialog.showDialog(jf, "警告", "读写配置文件出错");
+        }
     }
 
     @Override
@@ -373,7 +436,6 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     @Override
