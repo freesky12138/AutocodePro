@@ -11,5 +11,8 @@
     <orderEntry type="library" name="fastjson-1.2.47" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.38" level="project" />
     <orderEntry type="library" name="ojdbc6" level="project" />
+    <orderEntry type="library" name="fastjson-1.2.47" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-5.1.38" level="project" />
+    <orderEntry type="library" name="ojdbc6" level="project" />
   </component>
 </module>
