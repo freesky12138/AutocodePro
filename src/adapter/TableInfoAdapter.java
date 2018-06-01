@@ -1,3 +1,9 @@
+package adapter;
+
+import entity.DataConfig;
+import entity.TableInfo;
+import utils.ToolUtils;
+
 import java.util.ArrayList;
 
 /**
@@ -7,9 +13,9 @@ import java.util.ArrayList;
  * @description
  * @date 2018/5/30 13:37
  */
-public class TableInfoAdapter {
+public  class TableInfoAdapter {
 
-    public static String getJavaFile(ArrayList<TableInfo> tableInfos, DataInfo dataInfo) {
+    public static String getJavaFile(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String res = "";
 
         for (TableInfo tableInfo : tableInfos) {
@@ -49,19 +55,19 @@ public class TableInfoAdapter {
     }
 
 
-    public static String getSelectSql(ArrayList<TableInfo> tableInfos, DataInfo dataInfo) {
+    public static String getSelectSql(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String res = "select\n";
 
         for (int i = 0; i < tableInfos.size(); i++) {
             TableInfo tableInfo = tableInfos.get(i);
             String row = "";
-            if (!Tool.strIsEmpty(dataInfo.getPrefixEdit())) {
+            if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
                 row = dataInfo.getPrefixEdit() + ".";
             }
             String columnName = tableInfo.getColumnName();
             if (dataInfo.getjFieldWordType() == 0) {
                 columnName = columnName.toLowerCase();
-                columnName = tableInfo.getColumnName() + " as " + Tool.toHump(columnName);
+                columnName = tableInfo.getColumnName() + " as " + ToolUtils.toHump(columnName);
             } else if (dataInfo.getjFieldWordType() == 1) {
                 columnName = columnName.toLowerCase();
             } else {
@@ -80,16 +86,16 @@ public class TableInfoAdapter {
         }
 
         res += "from\n" + dataInfo.getTableName();
-        if (!Tool.strIsEmpty(dataInfo.getPrefixEdit())) {
+        if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
             res += " " + dataInfo.getPrefixEdit();
         }
         return res;
     }
 
-    private static String jFieldWordType(String columnName, DataInfo dataInfo) {
+    private static String jFieldWordType(String columnName, DataConfig dataInfo) {
         if (dataInfo.getjFieldWordType() == 0) {
             columnName = columnName.toLowerCase();
-            columnName = Tool.toHump(columnName);
+            columnName = ToolUtils.toHump(columnName);
         } else if (dataInfo.getjFieldWordType() == 1) {
             columnName = columnName.toLowerCase();
         } else {
@@ -98,7 +104,7 @@ public class TableInfoAdapter {
         return columnName;
     }
 
-    public static String getUpdateSql(ArrayList<TableInfo> tableInfos, DataInfo dataInfo) {
+    public static String getUpdateSql(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
 
         String code = "CODE";
         String value = "code";
@@ -118,7 +124,7 @@ public class TableInfoAdapter {
             String row = "<if test=\"%s != null\">%s=#{%s,jdbcType=%s},</if>";
             String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
 
-            if (!Tool.strIsEmpty(dataInfo.getPrefixEdit())) {
+            if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
                 columnName = dataInfo.getPrefixEdit() + "." + columnName;
             }
             row = String.format(row, columnName, tableInfo.getColumnName(), columnName, StatusAdapter.getDatabaseColumToMybatis(tableInfo.getDataType()));
@@ -132,7 +138,7 @@ public class TableInfoAdapter {
         return res;
     }
 
-    public static String getDeleteSql(ArrayList<TableInfo> tableInfos, DataInfo dataInfo) {
+    public static String getDeleteSql(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String code = "CODE";
         String value = "code";
         if (tableInfos.size() != 0) {
@@ -143,14 +149,14 @@ public class TableInfoAdapter {
                 "\tdelete from %s where %s = #{%s}\n" +
                 "</delete>";
 
-        if (!Tool.strIsEmpty(dataInfo.getPrefixEdit())) {
+        if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
             value = dataInfo.getPrefixEdit() + "." + value;
         }
         res = String.format(res, dataInfo.getTableName(), code, value);
         return res;
     }
 
-    public static String getInsertSql(ArrayList<TableInfo> tableInfos, DataInfo dataInfo) {
+    public static String getInsertSql(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String res = "insert into %s(\n";
         res = String.format(res, dataInfo.getTableName());
         for (int i = 0; i < tableInfos.size(); i++) {
@@ -173,7 +179,7 @@ public class TableInfoAdapter {
             String cowStr = "# {";
             TableInfo tableInfo = tableInfos.get(i);
             String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
-            if (!Tool.strIsEmpty(dataInfo.getPrefixEdit())) {
+            if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
                 cowStr += dataInfo.getPrefixEdit() + "." + columnName + ",jdbcType = " + StatusAdapter.getDatabaseColumToMybatis(tableInfo.getDataType());
             } else {
                 cowStr += columnName + ",jdbcType = " + StatusAdapter.getDatabaseColumToMybatis(tableInfo.getDataType());
@@ -191,7 +197,7 @@ public class TableInfoAdapter {
         return res;
     }
 
-    public static String getJson(ArrayList<TableInfo> tableInfos, DataInfo dataInfo) {
+    public static String getJson(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String res = "{\n";
         for (int i = 1; i < tableInfos.size(); i++) {
             TableInfo tableInfo = tableInfos.get(i);

@@ -1,3 +1,5 @@
+package utils;
+
 /**
  * @author hyp 1774549483@qq.com
  * @version v1.0
@@ -5,7 +7,7 @@
  * @description
  * @date 2018/5/29 19:54
  */
-public class Tool {
+public class ToolUtils {
     public static boolean strIsEmpty(String data) {
         if (null == data || "".equals(data)) {
             return true;

@@ -1,3 +1,11 @@
+import adapter.StatusAdapter;
+import database.DatabaseFactory;
+import database.MysqlHelp;
+import database.OracleHelp;
+import entity.DataConfig;
+import file.ConfigFileDao;
+import utils.ToolUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -73,7 +81,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
 
 
     //读取保存配置
-    private DatabaseDao databaseDao = new DatabaseDao();
+    private ConfigFileDao configFileDao = new ConfigFileDao();
 
     public MainJFrame() {
         initJFrame();
@@ -231,9 +239,9 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
         js.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        DataInfo dataInfo = null;
+        DataConfig dataInfo = null;
         try {
-            dataInfo = databaseDao.loadDataInfo();
+            dataInfo = configFileDao.loadDataInfo();
             setViewConfig(dataInfo);
         } catch (IOException e) {
             e.printStackTrace();
@@ -255,31 +263,31 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == creatBtn) {
-            if (Tool.strIsEmpty(ipEdit.getText())) {
-                errorDialog.showDialog(jf, "警告", "IP不能为空");
+            if (ToolUtils.strIsEmpty(ipEdit.getText())) {
+                ErrorDialog.showDialog(jf, "警告", "IP不能为空");
             }
 
-            if (Tool.strIsEmpty(portEdit.getText())) {
-                errorDialog.showDialog(jf, "警告", "端口不能为空");
+            if (ToolUtils.strIsEmpty(portEdit.getText())) {
+                ErrorDialog.showDialog(jf, "警告", "端口不能为空");
             }
 
-            if (Tool.strIsEmpty(userNameEdit.getText())) {
-                errorDialog.showDialog(jf, "警告", "用户名不能为空");
+            if (ToolUtils.strIsEmpty(userNameEdit.getText())) {
+                ErrorDialog.showDialog(jf, "警告", "用户名不能为空");
             }
 
-            if (Tool.strIsEmpty(pwdEdit.getText())) {
-                errorDialog.showDialog(jf, "警告", "密码不能为空");
+            if (ToolUtils.strIsEmpty(pwdEdit.getText())) {
+                ErrorDialog.showDialog(jf, "警告", "密码不能为空");
             }
 
-            if (Tool.strIsEmpty(databaseInstanceEdit.getText())) {
-                errorDialog.showDialog(jf, "警告", "实例不能为空");
+            if (ToolUtils.strIsEmpty(databaseInstanceEdit.getText())) {
+                ErrorDialog.showDialog(jf, "警告", "实例不能为空");
             }
 
-            if (Tool.strIsEmpty(tableNameEdit.getText())) {
-                errorDialog.showDialog(jf, "警告", "表名不能为空");
+            if (ToolUtils.strIsEmpty(tableNameEdit.getText())) {
+                ErrorDialog.showDialog(jf, "警告", "表名不能为空");
             }
 
-            DataInfo dataInfo = new DataInfo();
+            DataConfig dataInfo = new DataConfig();
             dataInfo.setDatabaseType(databaseTypeComboBox.getSelectedIndex());
             dataInfo.setIp(ipEdit.getText());
             dataInfo.setPort(portEdit.getText());
@@ -338,7 +346,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                     }
                 }
             } catch (SQLException e1) {
-                errorDialog.showDialog(jf, "警告", "数据库连接信息错误");
+                ErrorDialog.showDialog(jf, "警告", "数据库连接信息错误");
             }
         }
     }
@@ -390,7 +398,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
 
     }
 
-    private void setViewConfig(DataInfo dataInfo) {
+    private void setViewConfig(DataConfig dataInfo) {
         if (dataInfo != null) {
             databaseTypeComboBox.setSelectedIndex(dataInfo.getDatabaseType());
             ipEdit.setText(dataInfo.getIp());
@@ -402,8 +410,8 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
         }
     }
 
-    private DataInfo getViewConifg() {
-        DataInfo dataInfo = new DataInfo();
+    private DataConfig getViewConifg() {
+        DataConfig dataInfo = new DataConfig();
         dataInfo.setDatabaseType(databaseTypeComboBox.getSelectedIndex());
         dataInfo.setIp(ipEdit.getText());
         dataInfo.setPort(portEdit.getText());
@@ -418,13 +426,13 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     public void mousePressed(MouseEvent e) {
         try {
             if (e.getSource() == loadConfig) {
-                DataInfo dataInfo = databaseDao.loadDataInfo();
+                DataConfig dataInfo = configFileDao.loadDataInfo();
                 setViewConfig(dataInfo);
             } else if (e.getSource() == savaConfig) {
-                DataInfo dataInfo = getViewConifg();
-                databaseDao.saveDataInfo(dataInfo);
+                DataConfig dataInfo = getViewConifg();
+                configFileDao.saveDataInfo(dataInfo);
             } else if (e.getSource() == initConfig) {
-                DataInfo dataInfo = new DataInfo();
+                DataConfig dataInfo = new DataConfig();
                 dataInfo.setDatabaseType(1);
                 dataInfo.setIp("118.24.120.211");
                 dataInfo.setPort("3306");
@@ -433,11 +441,11 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                 dataInfo.setDatabaseInstance("db_tutor");
                 dataInfo.setTableName("m_user");
                 setViewConfig(dataInfo);
-                databaseDao.saveDataInfo(dataInfo);
+                configFileDao.saveDataInfo(dataInfo);
             }
         } catch (IOException e1) {
             e1.printStackTrace();
-            errorDialog.showDialog(jf, "警告", "读写配置文件出错");
+            ErrorDialog.showDialog(jf, "警告", "读写配置文件出错");
         }
     }
 

@@ -1,7 +1,9 @@
+package entity;
+
 /**
  * Created by Huppert on 2018/5/27.
  */
-public class DataInfo {
+public class DataConfig {
     private int databaseType;
     private String ip;
     private String port;

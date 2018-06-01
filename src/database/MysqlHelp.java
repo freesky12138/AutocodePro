@@ -1,8 +1,15 @@
+package database;
+
+import adapter.TableInfoAdapter;
+import entity.DataConfig;
+import entity.TableInfo;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 
 /**
  * @author hyp 1774549483@qq.com
@@ -13,11 +20,11 @@ import java.util.ArrayList;
  */
 public class MysqlHelp {
     private Connection connection;
-    private DataInfo dataInfo;
+    private DataConfig dataInfo;
 
     String sql = "SELECT COLUMN_NAME, IS_NULLABLE,COLUMN_COMMENT,DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION  FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'";
 
-    public MysqlHelp(Connection connection, DataInfo dataInfo) {
+    public MysqlHelp(Connection connection, DataConfig dataInfo) {
         this.connection = connection;
         this.dataInfo = dataInfo;
     }

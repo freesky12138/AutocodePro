@@ -1,13 +1,16 @@
+package file;
+
 import com.alibaba.fastjson.JSONObject;
+import entity.DataConfig;
 
 import java.io.*;
 
 /**
  * Created by Huppert on 2018/5/27.
  */
-public class DatabaseDao {
+public class ConfigFileDao {
 
-    public void saveDataInfo(DataInfo form) throws IOException {
+    public void saveDataInfo(DataConfig form) throws IOException {
         File fileDir = new File("C:\\Program Files\\haha point");
         File file = new File("C:\\Program Files\\haha point\\config.xml");
         file.setReadable(true);//设置可读权限
@@ -30,7 +33,7 @@ public class DatabaseDao {
     }
 
 
-    public DataInfo loadDataInfo() throws IOException {
+    public DataConfig loadDataInfo() throws IOException {
         //读取文件(缓存字节流)
         File fileDir = new File("C:\\Program Files\\haha point");
         File file = new File("C:\\Program Files\\haha point\\config.xml");
@@ -61,7 +64,7 @@ public class DatabaseDao {
             data += str;
         }
         in.close();
-        DataInfo dataInfo = JSONObject.parseObject(data, DataInfo.class);
+        DataConfig dataInfo = JSONObject.parseObject(data, DataConfig.class);
         return dataInfo;
     }
 

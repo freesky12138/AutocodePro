@@ -1,3 +1,7 @@
+package database;
+
+import entity.DataConfig;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +22,7 @@ public class DatabaseFactory {
     private static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
 
 
-    public static Connection getMySQLConnection(DataInfo dataInfo) throws SQLException {
+    public static Connection getMySQLConnection(DataConfig dataInfo) throws SQLException {
         if (mySQLConnection == null || getMysqlURI(dataInfo) != mysqlURI) {
             try {
                 Class.forName(MYSQL_DRIVER);// 动态加载mysql驱动
@@ -34,7 +38,7 @@ public class DatabaseFactory {
         return mySQLConnection;
     }
 
-    public static Connection getOracleConnection(DataInfo dataInfo) throws SQLException {
+    public static Connection getOracleConnection(DataConfig dataInfo) throws SQLException {
         if (oracleConnection == null || getOracleUrl(dataInfo) != oracleURI) {
             try {
                 Class.forName(ORACLE_DRIVER);// 动态加载mysql驱动
@@ -51,12 +55,12 @@ public class DatabaseFactory {
     }
 
 
-    private static String getOracleUrl(DataInfo dataInfo) {
+    private static String getOracleUrl(DataConfig dataInfo) {
         return "jdbc:oracle:thin:@" + dataInfo.getIp() + ":" + dataInfo.getPort() + ":" + dataInfo.getDatabaseInstance();
 
     }
 
-    private static String getMysqlURI(DataInfo dataInfo) {
+    private static String getMysqlURI(DataConfig dataInfo) {
         return "jdbc:mysql://" + dataInfo.getIp() + ":" + dataInfo.getPort() + "/" + dataInfo.getDatabaseInstance() + "?user=" + dataInfo.getUserName() + "&password=" + dataInfo.getPwd() + "&useUnicode=true&characterEncoding=UTF-8";
     }
 

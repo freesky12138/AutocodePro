@@ -8,7 +8,7 @@ import java.awt.*;
  * @description
  * @date 2018/5/29 19:49
  */
-public class errorDialog {
+public class ErrorDialog {
     public static void showDialog(Component component,String title,String msg) {
         JOptionPane.showMessageDialog(component, msg, title, JOptionPane.ERROR_MESSAGE);
     }

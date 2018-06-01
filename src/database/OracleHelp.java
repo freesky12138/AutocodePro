@@ -1,3 +1,9 @@
+package database;
+
+import adapter.TableInfoAdapter;
+import entity.DataConfig;
+import entity.TableInfo;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +19,7 @@ import java.util.ArrayList;
  */
 public class OracleHelp {
     private Connection connection;
-    private DataInfo dataInfo;
+    private DataConfig dataInfo;
 
 
     String sql = "select utc.column_name as columnName,utc.data_type as dataType,utc.data_length as dataLength,utc.nullable as nullable,ucc.comments as comments" +
@@ -22,7 +28,7 @@ public class OracleHelp {
             "    where utc.table_name = '%s'";
 
 
-    public OracleHelp(Connection connection, DataInfo dataInfo) {
+    public OracleHelp(Connection connection, DataConfig dataInfo) {
         this.connection = connection;
         this.dataInfo = dataInfo;
     }
