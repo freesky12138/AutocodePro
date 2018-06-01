@@ -74,4 +74,10 @@ public class OracleHelp {
 
         return TableInfoAdapter.getInsertSql(tableInfos, dataInfo);
     }
+
+    public String getJson() throws SQLException {
+        ArrayList<TableInfo> tableInfos = getTableInfo();
+
+        return TableInfoAdapter.getJson(tableInfos, dataInfo);
+    }
 }

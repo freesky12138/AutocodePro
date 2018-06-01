@@ -102,11 +102,11 @@ public class TableInfoAdapter {
 
         String code = "CODE";
         String value = "code";
-        String type="varchar";
+        String type = "varchar";
         if (tableInfos.size() != 0) {
             code = tableInfos.get(0).getColumnName();
-            value = jFieldWordType(code.toLowerCase(),dataInfo);
-            type=tableInfos.get(0).getDataType();
+            value = jFieldWordType(code.toLowerCase(), dataInfo);
+            type = tableInfos.get(0).getDataType();
         }
 
         String res = "UPDATE %s\n" +
@@ -128,7 +128,7 @@ public class TableInfoAdapter {
         res += String.format("</set>\n" +
                 "<where>\n" +
                 "\t<if test=\"%s != null \">%s=#{%s,jdbcType=%s}</if>\n" +
-                "</where>",value,code,value,type);
+                "</where>", value, code, value, type);
         return res;
     }
 
@@ -188,6 +188,27 @@ public class TableInfoAdapter {
 
 
         res += ")";
+        return res;
+    }
+
+    public static String getJson(ArrayList<TableInfo> tableInfos, DataInfo dataInfo) {
+        String res = "{\n";
+        for (int i = 1; i < tableInfos.size(); i++) {
+            TableInfo tableInfo = tableInfos.get(i);
+            String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
+            String row;
+            if(dataInfo.isRemarksAnnotation()){
+                row="\t\""+columnName+"\":"+"\""+tableInfo.getComments()+"\"";
+            }else {
+                row="\t\""+columnName+"\":"+"\""+columnName+"\"";
+            }
+
+            if (i != tableInfos.size() - 1) {
+                row += ",";
+            }
+            res+=row+"\n";
+        }
+        res+="}";
         return res;
     }
 }

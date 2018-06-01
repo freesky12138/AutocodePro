@@ -319,6 +319,8 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                         showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getUpdateSql());
                     } else if (dataInfo.getActionType() == 4) {
                         showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getDeleteSql());
+                    } else if (dataInfo.getActionType() == 5) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getJson());
                     }
                 } else {
                     if (dataInfo.getActionType() == 0) {
@@ -331,6 +333,8 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getUpdateSql());
                     } else if (dataInfo.getActionType() == 4) {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getDeleteSql());
+                    } else if (dataInfo.getActionType() == 5) {
+                        showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getJson());
                     }
                 }
             } catch (SQLException e1) {
@@ -361,10 +365,18 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                 jf.remove(panelLine4);
                 jf.remove(panelLine5);
                 panelLine6.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
+                if(res==5){
+                    panelLine6.remove(prefixEdit);
+                    panelLine6.remove(prefixText);
+                }else{
+                    panelLine6.add(prefixEdit);
+                    panelLine6.add(prefixText);
+                }
                 panelLine6.add(humpWordType);
                 panelLine6.add(lowercaseWordType);
                 panelLine6.add(uppercaseWordType);
                 panelLine6.add(isRemarksAnnotation);
+
                 jf.add(panelLine6, 3);
                 jf.repaint();
                 jf.setVisible(true);
@@ -379,7 +391,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     }
 
     private void setViewConfig(DataInfo dataInfo) {
-        if(dataInfo!=null){
+        if (dataInfo != null) {
             databaseTypeComboBox.setSelectedIndex(dataInfo.getDatabaseType());
             ipEdit.setText(dataInfo.getIp());
             portEdit.setText(dataInfo.getPort());
@@ -412,7 +424,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                 DataInfo dataInfo = getViewConifg();
                 databaseDao.saveDataInfo(dataInfo);
             } else if (e.getSource() == initConfig) {
-                DataInfo dataInfo=new DataInfo();
+                DataInfo dataInfo = new DataInfo();
                 dataInfo.setDatabaseType(1);
                 dataInfo.setIp("118.24.120.211");
                 dataInfo.setPort("3306");
