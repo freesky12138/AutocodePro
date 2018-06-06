@@ -22,7 +22,10 @@ public class MysqlHelp {
     private Connection connection;
     private DataConfig dataInfo;
 
-    String sql = "SELECT COLUMN_NAME, IS_NULLABLE,COLUMN_COMMENT,DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION  FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'";
+    String sql = "SELECT " +
+            "COLUMN_NAME, IS_NULLABLE,COLUMN_COMMENT,DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION  " +
+            "FROM INFORMATION_SCHEMA.COLUMNS " +
+            "WHERE TABLE_NAME='%s'";
 
     public MysqlHelp(Connection connection, DataConfig dataInfo) {
         this.connection = connection;

@@ -20,7 +20,7 @@ import java.sql.SQLException;
  * @date 2018/5/23 16:05
  */
 public class MainJFrame implements ActionListener, ItemListener, MouseListener {
-    private JFrame jf = new JFrame("haha point");          // 创建窗口
+    private JFrame jf = new JFrame("haha point(https://github.com/freesky12138/AutocodePro/)");          // 创建窗口
     private JMenuBar jMenuBar;
     private JMenu config;
     private JMenuItem loadConfig;
