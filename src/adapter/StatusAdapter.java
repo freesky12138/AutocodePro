@@ -8,7 +8,7 @@ package adapter;
  * @date 2018/5/29 19:08
  */
 public class StatusAdapter {
-    private static String[] actionTypeStrs = {"Java class field", "Mybatis Select", "Mybatis Insert", "Mybatis Update", "Mybatis Delete","JSON"};
+    private static String[] actionTypeStrs = {"Java class field", "Mybatis Select", "Mybatis Insert", "Mybatis Update", "Mybatis Delete","JSON","Mybatis InsertSelective"};
 
     private static String[] databaseTypeStrs = {"Oracle", "Mysql"};
 
@@ -49,6 +49,8 @@ public class StatusAdapter {
             return 4;
         }else if (str.equals(actionTypeStrs[5])) {
             return 5;
+        }else if (str.equals(actionTypeStrs[6])) {
+            return 6;
         }
         return 0;
     }

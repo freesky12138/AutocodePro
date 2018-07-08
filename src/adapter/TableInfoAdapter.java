@@ -197,6 +197,34 @@ public  class TableInfoAdapter {
         return res;
     }
 
+    public static String getInsertSelectiveSql(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
+        String res = "insert into %s";
+        res += "<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\" >\n";
+        res = String.format(res, dataInfo.getTableName());
+
+        StringBuilder key = new StringBuilder(res);
+        tableInfos.forEach(t->{
+            String columnName = t.getColumnName();
+            key.append("<if test=\""+jFieldWordType(columnName, dataInfo)+"!= null\" >\n"+ columnName +",\n" + "</if>");
+        });
+
+        key.append("\n</trim>\n");
+
+        key.append("<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\" >\n");
+
+        tableInfos.forEach(t->{
+            String columnName = t.getColumnName();
+            key.append("<if test=\""+jFieldWordType(columnName, dataInfo)+" != null\" >\n" +
+                    "        #{"+jFieldWordType(columnName, dataInfo)+",jdbcType="+StatusAdapter.getDatabaseColumToMybatis(t.getDataType())+"},\n" +
+                    "      </if>");
+        });
+
+        key.append("\n</trim>");
+
+        return key.toString();
+
+    }
+
     public static String getJson(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String res = "{\n";
         for (int i = 1; i < tableInfos.size(); i++) {
