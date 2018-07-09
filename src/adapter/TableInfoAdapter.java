@@ -228,13 +228,13 @@ public class TableInfoAdapter {
 
     public static String getResultBaseMap(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
 
-        StringBuilder key = new StringBuilder("<resultMap id=\"BaseResultMap\" type=\"com\">");
+        StringBuilder key = new StringBuilder("<resultMap id=\"BaseResultMap\" type=\"com\">\n");
         tableInfos.forEach(t -> {
             String columnName = t.getColumnName();
             if (columnName.equalsIgnoreCase("id")) {
-                key.append("<id column=\"" + columnName + "\" jdbcType=\"INTEGER\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />");
+                key.append("<id column=\"" + columnName + "\" jdbcType=\"INTEGER\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />\n");
             }
-            key.append("<result column=\"" + columnName + "\" jdbcType=\"" + StatusAdapter.getDatabaseColumToMybatis(t.getDataType()) + "\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />");
+            key.append("<result column=\"" + columnName + "\" jdbcType=\"" + StatusAdapter.getDatabaseColumToMybatis(t.getDataType()) + "\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />\n");
         });
         key.append("\n</resultMap>");
         return key.toString();
