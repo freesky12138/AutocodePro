@@ -1,5 +1,7 @@
 package adapter;
 
+import java.text.DecimalFormat;
+
 /**
  * @author hyp 1774549483@qq.com
  * @version v1.0
@@ -12,9 +14,14 @@ public class StatusAdapter {
 
     private static String[] databaseTypeStrs = {"Oracle", "Mysql"};
 
-    private static String[] databaseColumType = {"VARCHAR2", "DATE", "NUMBER","varchar","datetime","int"};
-    private static String[] databaseColumTypeToJFile = {"String", "Date", "Double","String", "Date", "Double"};
-    private static String[] databaseColumTypeToMybatis = {"VARCHAR", "DATE", "NUMERIC","VARCHAR", "DATE", "NUMERIC"};
+    private static String[] databaseColumType = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG",  "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR",
+            "smallint","tinyint","int","bigint","double","decimal","char","binary","varchar","date","time","datetime","TIMESTAMP","blob","text"};
+    private static String[] databaseColumTypeToMybatis = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG", "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR",
+            "SMALLINT","TINYINT","INTEGER","BIGINT","DOUBLE","DECIMAL","CHAR","BINARY","VARCHAR","DATE","TIME","DATE","TIMESTAMP","Blob","TEXT"};
+    private static String[] databaseColumTypeToJFile = {"String","Clob","Date","BigDecimal","BigDecimal","Float","Integer","Long","BigDecimal","Float","short","Time","String","byte","String",
+            "Integer","Integer","Integer","Long","Double","BigDecimal","String","byte[]","String","Date","Time","Date","String","Blob","String"
+            };
+
 
     public static String getDatabaseColumType(String str) {
 
