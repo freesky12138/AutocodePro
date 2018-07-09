@@ -53,6 +53,7 @@ public class MysqlHelp {
             tableInfo.setComments(rs.getString("COLUMN_COMMENT"));
             tableInfos.add(tableInfo);
         }
+
         return tableInfos;
     }
 
