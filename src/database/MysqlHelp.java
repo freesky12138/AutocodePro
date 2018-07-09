@@ -87,6 +87,12 @@ public class MysqlHelp {
         return TableInfoAdapter.getInsertSelectiveSql(tableInfos, dataInfo);
     }
 
+    public String getResultBaseMap() throws SQLException {
+        ArrayList<TableInfo> tableInfos = getTableInfo();
+
+        return TableInfoAdapter.getResultBaseMap(tableInfos, dataInfo);
+    }
+
 
     public String getJson() throws SQLException{
         ArrayList<TableInfo> tableInfos = getTableInfo();

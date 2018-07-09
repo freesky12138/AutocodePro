@@ -345,6 +345,8 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getJson());
                     }else if (dataInfo.getActionType() == 6) {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getInsertSelectiveSql());
+                    }else if (dataInfo.getActionType() == 7) {
+                        showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getResultBaseMap());
                     }
                 }
             } catch (SQLException e1) {

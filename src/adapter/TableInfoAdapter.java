@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @description
  * @date 2018/5/30 13:37
  */
-public  class TableInfoAdapter {
+public class TableInfoAdapter {
 
     public static String getJavaFile(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String res = "";
@@ -203,24 +203,40 @@ public  class TableInfoAdapter {
         res = String.format(res, dataInfo.getTableName());
 
         StringBuilder key = new StringBuilder(res);
-        tableInfos.forEach(t->{
+        tableInfos.forEach(t -> {
             String columnName = t.getColumnName();
-            key.append("<if test=\""+jFieldWordType(columnName, dataInfo)+"!= null\" >\n"+ columnName +",\n" + "</if>");
+            key.append("<if test=\"" + jFieldWordType(columnName, dataInfo) + "!= null\" >\n" + columnName + ",\n" + "</if>");
         });
 
         key.append("\n</trim>\n");
 
         key.append("<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\" >\n");
 
-        tableInfos.forEach(t->{
+        tableInfos.forEach(t -> {
             String columnName = t.getColumnName();
-            key.append("<if test=\""+jFieldWordType(columnName, dataInfo)+" != null\" >\n" +
-                    "        #{"+jFieldWordType(columnName, dataInfo)+",jdbcType="+StatusAdapter.getDatabaseColumToMybatis(t.getDataType())+"},\n" +
+            key.append("<if test=\"" + jFieldWordType(columnName, dataInfo) + " != null\" >\n" +
+                    "        #{" + jFieldWordType(columnName, dataInfo) + ",jdbcType=" + StatusAdapter.getDatabaseColumToMybatis(t.getDataType()) + "},\n" +
                     "      </if>");
         });
 
         key.append("\n</trim>");
 
+        return key.toString();
+
+    }
+
+
+    public static String getResultBaseMap(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
+
+        StringBuilder key = new StringBuilder("<resultMap id=\"BaseResultMap\" type=\"com\">");
+        tableInfos.forEach(t -> {
+            String columnName = t.getColumnName();
+            if (columnName.equalsIgnoreCase("id")) {
+                key.append("<id column=\"" + columnName + "\" jdbcType=\"INTEGER\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />");
+            }
+            key.append("<result column=\"" + columnName + "\" jdbcType=\"" + StatusAdapter.getDatabaseColumToMybatis(t.getDataType()) + "\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />");
+        });
+        key.append("\n</resultMap>");
         return key.toString();
 
     }
@@ -231,18 +247,18 @@ public  class TableInfoAdapter {
             TableInfo tableInfo = tableInfos.get(i);
             String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
             String row;
-            if(dataInfo.isRemarksAnnotation()){
-                row="\t\""+columnName+"\":"+"\""+tableInfo.getComments()+"\"";
-            }else {
-                row="\t\""+columnName+"\":"+"\""+columnName+"\"";
+            if (dataInfo.isRemarksAnnotation()) {
+                row = "\t\"" + columnName + "\":" + "\"" + tableInfo.getComments() + "\"";
+            } else {
+                row = "\t\"" + columnName + "\":" + "\"" + columnName + "\"";
             }
 
             if (i != tableInfos.size() - 1) {
                 row += ",";
             }
-            res+=row+"\n";
+            res += row + "\n";
         }
-        res+="}";
+        res += "}";
         return res;
     }
 }
