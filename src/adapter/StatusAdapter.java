@@ -14,7 +14,7 @@ public class StatusAdapter {
 
     private static String[] databaseTypeStrs = {"Oracle", "Mysql"};
 
-    private static String[] databaseColumType = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG",  "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR",
+    private static String[] databaseColumType = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG",  "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR2",
             "smallint","tinyint","int","bigint","double","decimal","char","binary","varchar","date","time","datetime","TIMESTAMP","blob","text"};
     private static String[] databaseColumTypeToMybatis = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG", "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR",
             "SMALLINT","TINYINT","INTEGER","BIGINT","DOUBLE","DECIMAL","CHAR","BINARY","VARCHAR","DATE","TIME","DATE","TIMESTAMP","Blob","TEXT"};
