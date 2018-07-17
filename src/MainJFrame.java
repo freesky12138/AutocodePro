@@ -329,6 +329,10 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                         showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getDeleteSql());
                     } else if (dataInfo.getActionType() == 5) {
                         showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getJson());
+                    } else if (dataInfo.getActionType() == 6) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getInsertSelectiveSql());
+                    } else if (dataInfo.getActionType() == 7) {
+                        showText.setText(new OracleHelp(DatabaseFactory.getOracleConnection(dataInfo), dataInfo).getResultBaseMap());
                     }
                 } else {
                     if (dataInfo.getActionType() == 0) {
@@ -343,9 +347,9 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getDeleteSql());
                     } else if (dataInfo.getActionType() == 5) {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getJson());
-                    }else if (dataInfo.getActionType() == 6) {
+                    } else if (dataInfo.getActionType() == 6) {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getInsertSelectiveSql());
-                    }else if (dataInfo.getActionType() == 7) {
+                    } else if (dataInfo.getActionType() == 7) {
                         showText.setText(new MysqlHelp(DatabaseFactory.getMySQLConnection(dataInfo), dataInfo).getResultBaseMap());
                     }
                 }
@@ -377,10 +381,10 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                 jf.remove(panelLine4);
                 jf.remove(panelLine5);
                 panelLine6.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 5));
-                if(res==5){
+                if (res == 5) {
                     panelLine6.remove(prefixEdit);
                     panelLine6.remove(prefixText);
-                }else{
+                } else {
                     panelLine6.add(prefixEdit);
                     panelLine6.add(prefixText);
                 }

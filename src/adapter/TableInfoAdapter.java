@@ -112,7 +112,7 @@ public class TableInfoAdapter {
         if (tableInfos.size() != 0) {
             code = tableInfos.get(0).getColumnName();
             value = jFieldWordType(code.toLowerCase(), dataInfo);
-            type = tableInfos.get(0).getDataType();
+            type = StatusAdapter.getDatabaseColumToMybatis(tableInfos.get(0).getDataType());
         }
 
         String res = "UPDATE %s\n" +
@@ -176,7 +176,7 @@ public class TableInfoAdapter {
         res += "seq_" + dataInfo.getTableName().toLowerCase() + ".nextval,\n";
 
         for (int i = 1; i < tableInfos.size(); i++) {
-            String cowStr = "# {";
+            String cowStr = "#{";
             TableInfo tableInfo = tableInfos.get(i);
             String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
             if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
