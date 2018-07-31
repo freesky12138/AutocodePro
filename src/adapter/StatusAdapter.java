@@ -26,7 +26,7 @@ public class StatusAdapter {
     public static String getDatabaseColumType(String str) {
 
         for (int i = 0; i < databaseColumType.length; i++) {
-            if (str.equals(databaseColumType[i])) {
+            if (str.contains(databaseColumType[i])) {
                 return databaseColumTypeToJFile[i];
             }
         }
@@ -36,7 +36,7 @@ public class StatusAdapter {
     public static String getDatabaseColumToMybatis(String str) {
 
         for (int i = 0; i < databaseColumType.length; i++) {
-            if (str.equals(databaseColumType[i])) {
+            if (str.contains(databaseColumType[i])) {
                 return databaseColumTypeToMybatis[i];
             }
         }

@@ -22,11 +22,9 @@ public class TableInfoAdapter {
             String rowStr = "";
             //日期是否使用Str
             if (dataInfo.isDateIsString()) {
-                StatusAdapter.getDatabaseColumTypeToJFile()[1] = "String";
-                StatusAdapter.getDatabaseColumTypeToJFile()[4] = "String";
+                StatusAdapter.getDatabaseColumTypeToJFile()[2] = "String";
             } else {
-                StatusAdapter.getDatabaseColumTypeToJFile()[1] = "Date";
-                StatusAdapter.getDatabaseColumTypeToJFile()[4] = "Date";
+                StatusAdapter.getDatabaseColumTypeToJFile()[2] = "Date";
             }
 
             //大写，小写，驼峰
