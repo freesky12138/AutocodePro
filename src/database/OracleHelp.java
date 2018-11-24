@@ -76,6 +76,7 @@ public class OracleHelp {
 
             tableInfos.add(tableInfo);
         }
+        stmt.close();
         return tableInfos;
     }
 

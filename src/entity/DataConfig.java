@@ -16,10 +16,19 @@ public class DataConfig {
     private boolean isNullAnnotation;
     private boolean lengthAnnotation;
     private boolean dateAnnotation;
+    private boolean isReturnPk;
     private String dateAnnotationType;
     private boolean dateIsString;
     private boolean isRemarksAnnotation;
     private String prefixEdit;
+
+    public boolean isReturnPk() {
+        return isReturnPk;
+    }
+
+    public void setReturnPk(boolean returnPk) {
+        isReturnPk = returnPk;
+    }
 
     public int getDatabaseType() {
         return databaseType;

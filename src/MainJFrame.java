@@ -64,6 +64,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
     private JTextField dateAnnotationType;//注解类型yyyy-MM-dd HH:mm:ss
     private JCheckBox dateIsString;//日期是否是String
     private JCheckBox isRemarksAnnotation;//是否要备注
+    private JCheckBox isReturnPk;//是否返回PK
 
     /**
      * 查询结果，更新，删除,插入
@@ -208,6 +209,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
         dateAnnotationType.setColumns(12);
         dateIsString = new JCheckBox("日期使用String");
         isRemarksAnnotation = new JCheckBox("是否需要备注");
+        isReturnPk = new JCheckBox("是否返回关键字");
         panelLine4.add(dateAnnotation);
         panelLine4.add(dateAnnotationType);
         panelLine4.add(dateIsString);
@@ -217,6 +219,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
         panelLine5.add(isNullAnnotation);
         panelLine5.add(lengthAnnotation);
         panelLine5.add(isRemarksAnnotation);
+        panelLine5.add(isReturnPk);
 
 
         panelLine6 = new JPanel();
@@ -313,6 +316,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                 dataInfo.setRemarksAnnotation(isRemarksAnnotation.isSelected());
             } else {
                 dataInfo.setRemarksAnnotation(isRemarksAnnotation.isSelected());
+                dataInfo.setReturnPk(isReturnPk.isSelected());
                 dataInfo.setPrefixEdit(prefixEdit.getText());
             }
             try {
@@ -395,7 +399,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                 panelLine6.add(lowercaseWordType);
                 panelLine6.add(uppercaseWordType);
                 panelLine6.add(isRemarksAnnotation);
-
+                panelLine6.add(isReturnPk);
                 jf.add(panelLine6, 3);
                 jf.repaint();
                 jf.setVisible(true);

@@ -54,7 +54,7 @@ public class MysqlHelp {
             tableInfo.setPk(!rs.getString("COLUMN_KEY").isEmpty());
             tableInfos.add(tableInfo);
         }
-
+        stmt.close();
         return tableInfos;
     }
 

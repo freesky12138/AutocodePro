@@ -169,6 +169,8 @@ public class TableInfoAdapter {
 
     public static String getInsertSql(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String res = "insert into %s(\n";
+        String pkName="";
+        String pkType="";
         res = String.format(res, dataInfo.getTableName());
         for (int i = 0; i < tableInfos.size(); i++) {
             TableInfo tableInfo = tableInfos.get(i);
@@ -192,6 +194,8 @@ public class TableInfoAdapter {
             TableInfo tableInfo = tableInfos.get(i);
             if(tableInfo.isPk()){
                 res += "seq_" + dataInfo.getTableName().toLowerCase() + ".nextval,\n";
+                pkName=jFieldWordType(tableInfo.getColumnName(), dataInfo);
+                pkType=StatusAdapter.getDatabaseColumType(tableInfo.getDataType());
             }else {
                 String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
                 if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
@@ -209,8 +213,14 @@ public class TableInfoAdapter {
 
         }
 
+        res += ")\n";
 
-        res += ")";
+        if(dataInfo.isReturnPk()){
+            res+=String.format("<selectKey resultType=\"%s\" order=\"AFTER\" keyProperty=\"%s\">\n" +
+                    "        SELECT seq_%s.currval AS %s from DUAL\n" +
+                    "</selectKey>",pkType,pkName,dataInfo.getTableName().toLowerCase(),pkName);
+        }
+
         return res;
     }
 
