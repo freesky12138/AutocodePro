@@ -46,7 +46,7 @@ public class DatabaseFactory {
                 oracleConnection = DriverManager.getConnection(oracleURI, dataInfo.getUserName(), dataInfo.getPwd());
                 System.out.println("成功加载Oracle驱动程序");
             } catch (SQLException e) {
-               throw e;
+                throw e;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

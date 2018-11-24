@@ -10,17 +10,17 @@ import java.text.DecimalFormat;
  * @date 2018/5/29 19:08
  */
 public class StatusAdapter {
-    private static String[] actionTypeStrs = {"Java class field", "Mybatis Select", "Mybatis Insert", "Mybatis Update", "Mybatis Delete","JSON","Mybatis InsertSelective","ReturnBaseMap"};
+    private static String[] actionTypeStrs = {"Java class field", "Mybatis Select", "Mybatis Insert", "Mybatis Update", "Mybatis Delete", "JSON", "Mybatis InsertSelective", "ReturnBaseMap"};
 
     private static String[] databaseTypeStrs = {"Oracle", "Mysql"};
 
-    private static String[] databaseColumType = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG",  "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR2",
-            "smallint","tinyint","int","bigint","double","decimal","char","binary","varchar","date","time","datetime","TIMESTAMP","blob","text"};
+    private static String[] databaseColumType = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG", "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR2",
+            "smallint", "tinyint", "int", "bigint", "double", "decimal", "char", "binary", "varchar", "date", "time", "datetime", "TIMESTAMP", "blob", "text"};
     private static String[] databaseColumTypeToMybatis = {"CHAR", "CLOB", "DATE", "DECIMAL", "NUMBER", "FLOAT", "INTEGER", "LONG", "NUMERIC", "REAL", "SMALLINT", "TIME", "TIMESTAMP", "TINYINT", "VARCHAR",
-            "SMALLINT","TINYINT","INTEGER","BIGINT","DOUBLE","DECIMAL","CHAR","BINARY","VARCHAR","DATE","TIME","DATE","TIMESTAMP","Blob","TEXT"};
-    private static String[] databaseColumTypeToJFile = {"String","Clob","Date","BigDecimal","BigDecimal","Float","Integer","Long","BigDecimal","Float","short","Time","String","byte","String",
-            "Integer","Integer","Integer","Long","Double","BigDecimal","String","byte[]","String","Date","Time","Date","String","Blob","String"
-            };
+            "SMALLINT", "TINYINT", "INTEGER", "BIGINT", "DOUBLE", "DECIMAL", "CHAR", "BINARY", "VARCHAR", "DATE", "TIME", "DATE", "TIMESTAMP", "Blob", "TEXT"};
+    private static String[] databaseColumTypeToJFile = {"String", "Clob", "Date", "BigDecimal", "BigDecimal", "Float", "Integer", "Long", "BigDecimal", "Float", "short", "Time", "String", "byte", "String",
+            "Integer", "Integer", "Integer", "Long", "Double", "BigDecimal", "String", "byte[]", "String", "Date", "Time", "Date", "String", "Blob", "String"
+    };
 
 
     public static String getDatabaseColumType(String str) {
@@ -54,11 +54,11 @@ public class StatusAdapter {
             return 3;
         } else if (str.equals(actionTypeStrs[4])) {
             return 4;
-        }else if (str.equals(actionTypeStrs[5])) {
+        } else if (str.equals(actionTypeStrs[5])) {
             return 5;
-        }else if (str.equals(actionTypeStrs[6])) {
+        } else if (str.equals(actionTypeStrs[6])) {
             return 6;
-        }else if (str.equals(actionTypeStrs[7])) {
+        } else if (str.equals(actionTypeStrs[7])) {
             return 7;
         }
         return 0;

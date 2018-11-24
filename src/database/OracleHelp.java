@@ -27,6 +27,7 @@ public class OracleHelp {
             "    left join user_col_comments ucc on utc.column_name=ucc.column_name and ucc.table_name=utc.table_name" +
             "    where utc.table_name = '%s'";
 
+    String keySql = "select cu.column_name as columnName from user_cons_columns cu, user_constraints au where cu.constraint_name = au.constraint_name and au.constraint_type = 'P' and au.table_name = '%s'";
 
     public OracleHelp(Connection connection, DataConfig dataInfo) {
         this.connection = connection;
@@ -41,9 +42,24 @@ public class OracleHelp {
 
     private ArrayList<TableInfo> getTableInfo() throws SQLException {
         Statement stmt = connection.createStatement();
-        sql = sql.replaceAll("%s", dataInfo.getTableName());
-        ResultSet rs = stmt.executeQuery(sql);
+        sql = sql.replaceAll("%s", dataInfo.getTableName().toUpperCase());
+        //主键
+        keySql = keySql.replaceAll("%s", dataInfo.getTableName().toUpperCase());
+
+
+
+
+
         ArrayList<TableInfo> tableInfos = new ArrayList<>();
+        String temp = "";
+        ResultSet keyRs = stmt.executeQuery(keySql);
+        if (keyRs != null ) {
+            while (keyRs.next()){
+                temp = keyRs.getString("columnName");
+            }
+        }
+
+        ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
             TableInfo tableInfo = new TableInfo();
             tableInfo.setColumnName(rs.getString("columnName"));
@@ -51,6 +67,13 @@ public class OracleHelp {
             tableInfo.setDataLength(rs.getInt("dataLength"));
             tableInfo.setNullAble(rs.getString("nullable"));
             tableInfo.setComments(rs.getString("comments"));
+            tableInfo.setPk(false);
+
+
+            if (tableInfo.getColumnName().equals(temp)) {
+                tableInfo.setPk(true);
+            }
+
             tableInfos.add(tableInfo);
         }
         return tableInfos;

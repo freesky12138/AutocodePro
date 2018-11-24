@@ -220,7 +220,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
 
 
         panelLine6 = new JPanel();
-        prefixText = new JLabel("添加前缀");
+        prefixText = new JLabel("添加前缀：");
         prefixEdit = new JTextField("");
         prefixEdit.setColumns(12);
         panelLine6.add(prefixText);
@@ -354,6 +354,7 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                     }
                 }
             } catch (SQLException e1) {
+                e1.printStackTrace();
                 ErrorDialog.showDialog(jf, "警告", "数据库连接信息错误");
             }
         }
@@ -385,8 +386,10 @@ public class MainJFrame implements ActionListener, ItemListener, MouseListener {
                     panelLine6.remove(prefixEdit);
                     panelLine6.remove(prefixText);
                 } else {
-                    panelLine6.add(prefixEdit);
+
                     panelLine6.add(prefixText);
+                    panelLine6.add(prefixEdit);
+
                 }
                 panelLine6.add(humpWordType);
                 panelLine6.add(lowercaseWordType);

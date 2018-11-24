@@ -15,6 +15,15 @@ public class TableInfo implements Serializable{
     private Integer dataLength;
     private String nullAble;
     private String comments;
+    private boolean isPk;
+
+    public boolean isPk() {
+        return isPk;
+    }
+
+    public void setPk(boolean pk) {
+        isPk = pk;
+    }
 
     public String getColumnName() {
         return columnName;

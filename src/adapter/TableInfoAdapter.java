@@ -107,11 +107,16 @@ public class TableInfoAdapter {
         String code = "CODE";
         String value = "code";
         String type = "varchar";
-        if (tableInfos.size() != 0) {
-            code = tableInfos.get(0).getColumnName();
-            value = jFieldWordType(code.toLowerCase(), dataInfo);
-            type = StatusAdapter.getDatabaseColumToMybatis(tableInfos.get(0).getDataType());
+
+        for (TableInfo tableInfo : tableInfos) {
+            if(tableInfo.isPk()){
+                code = tableInfos.get(0).getColumnName();
+                value = jFieldWordType(code.toLowerCase(), dataInfo);
+
+                type = StatusAdapter.getDatabaseColumToMybatis(tableInfos.get(0).getDataType());
+            }
         }
+
 
         String res = "UPDATE %s\n" +
                 "<set>\n";
@@ -139,9 +144,15 @@ public class TableInfoAdapter {
     public static String getDeleteSql(ArrayList<TableInfo> tableInfos, DataConfig dataInfo) {
         String code = "CODE";
         String value = "code";
-        if (tableInfos.size() != 0) {
-            code = tableInfos.get(0).getColumnName();
-            value = code.toLowerCase();
+
+        for (TableInfo tableInfo : tableInfos) {
+            if(tableInfo.isPk()){
+                code = tableInfos.get(0).getColumnName();
+
+                value=jFieldWordType(code,dataInfo);
+
+                break;
+            }
         }
         String res = "<delete id=\"delete\">\n" +
                 "\tdelete from %s where %s = #{%s}\n" +
@@ -171,23 +182,29 @@ public class TableInfoAdapter {
             res += columnName + "\n";
         }
         res += ")\nvalues(\n";
-        res += "seq_" + dataInfo.getTableName().toLowerCase() + ".nextval,\n";
 
-        for (int i = 1; i < tableInfos.size(); i++) {
+
+        for (int i = 0; i < tableInfos.size(); i++) {
+
             String cowStr = "#{";
             TableInfo tableInfo = tableInfos.get(i);
-            String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
-            if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
-                cowStr += dataInfo.getPrefixEdit() + "." + columnName + ",jdbcType = " + StatusAdapter.getDatabaseColumToMybatis(tableInfo.getDataType());
-            } else {
-                cowStr += columnName + ",jdbcType = " + StatusAdapter.getDatabaseColumToMybatis(tableInfo.getDataType());
+            if(tableInfo.isPk()){
+                res += "seq_" + dataInfo.getTableName().toLowerCase() + ".nextval,\n";
+            }else {
+                String columnName = jFieldWordType(tableInfo.getColumnName(), dataInfo);
+                if (!ToolUtils.strIsEmpty(dataInfo.getPrefixEdit())) {
+                    cowStr += dataInfo.getPrefixEdit() + "." + columnName + ",jdbcType = " + StatusAdapter.getDatabaseColumToMybatis(tableInfo.getDataType());
+                } else {
+                    cowStr += columnName + ",jdbcType = " + StatusAdapter.getDatabaseColumToMybatis(tableInfo.getDataType());
+                }
+
+                cowStr += "}";
+                if (i != tableInfos.size() - 1) {
+                    cowStr += ",";
+                }
+                res += cowStr + "\n";
             }
 
-            cowStr += "}";
-            if (i != tableInfos.size() - 1) {
-                cowStr += ",";
-            }
-            res += cowStr + "\n";
         }
 
 

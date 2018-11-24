@@ -23,7 +23,7 @@ public class MysqlHelp {
     private DataConfig dataInfo;
 
     String sql = "SELECT " +
-            "COLUMN_NAME, IS_NULLABLE,COLUMN_COMMENT,DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION  " +
+            "COLUMN_NAME, IS_NULLABLE,COLUMN_COMMENT,DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION ,COLUMN_KEY " +
             "FROM INFORMATION_SCHEMA.COLUMNS " +
             "WHERE TABLE_NAME='%s'";
 
@@ -51,6 +51,7 @@ public class MysqlHelp {
             tableInfo.setDataLength(rs.getInt("CHARACTER_MAXIMUM_LENGTH") == 0 ? rs.getInt("NUMERIC_PRECISION") : rs.getInt("CHARACTER_MAXIMUM_LENGTH"));
             tableInfo.setNullAble("YES".equals(rs.getString("IS_NULLABLE"))?"Y":"N");
             tableInfo.setComments(rs.getString("COLUMN_COMMENT"));
+            tableInfo.setPk(!rs.getString("COLUMN_KEY").isEmpty());
             tableInfos.add(tableInfo);
         }
 
