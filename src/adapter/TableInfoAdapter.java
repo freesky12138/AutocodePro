@@ -22,9 +22,11 @@ public class TableInfoAdapter {
             String rowStr = "";
             //日期是否使用Str
             if (dataInfo.isDateIsString()) {
-                StatusAdapter.getDatabaseColumTypeToJFile()[2] = "String";
-            } else {
-                StatusAdapter.getDatabaseColumTypeToJFile()[2] = "Date";
+                for (int i=0;i<StatusAdapter.getDatabaseColumTypeToJFile().length;i++) {
+                    if("Date".equals(StatusAdapter.getDatabaseColumTypeToJFile()[i])){
+                        StatusAdapter.getDatabaseColumTypeToJFile()[i]="String";
+                    }
+                }
             }
 
             //大写，小写，驼峰
@@ -249,9 +251,9 @@ public class TableInfoAdapter {
             if (columnName.equalsIgnoreCase("id")) {
                 key.append("<id column=\"" + columnName + "\" jdbcType=\"INTEGER\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />\n");
             }
-            key.append("<result column=\"" + columnName + "\" jdbcType=\"" + StatusAdapter.getDatabaseColumToMybatis(t.getDataType()) + "\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />\n");
+            key.append("\t<result column=\"" + columnName + "\" jdbcType=\"" + StatusAdapter.getDatabaseColumToMybatis(t.getDataType()) + "\" property=\"" + jFieldWordType(columnName, dataInfo) + "\" />\n");
         });
-        key.append("\n</resultMap>");
+        key.append("</resultMap>");
         return key.toString();
 
     }
