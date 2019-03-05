@@ -66,7 +66,7 @@ public class TableInfoAdapter {
             }
             String columnName = tableInfo.getColumnName();
             if (dataInfo.getjFieldWordType() == 0) {
-                columnName = columnName.toLowerCase();
+               // columnName = columnName.toLowerCase();
                 columnName = tableInfo.getColumnName() + " as " + ToolUtils.toHump(columnName);
             } else if (dataInfo.getjFieldWordType() == 1) {
                 columnName = columnName.toLowerCase();
@@ -94,7 +94,10 @@ public class TableInfoAdapter {
 
     private static String jFieldWordType(String columnName, DataConfig dataInfo) {
         if (dataInfo.getjFieldWordType() == 0) {
-            columnName = columnName.toLowerCase();
+
+
+
+
             columnName = ToolUtils.toHump(columnName);
         } else if (dataInfo.getjFieldWordType() == 1) {
             columnName = columnName.toLowerCase();

@@ -11,8 +11,8 @@ import java.io.*;
 public class ConfigFileDao {
 
     public void saveDataInfo(DataConfig form) throws IOException {
-        File fileDir = new File("C:\\Program Files\\haha point");
-        File file = new File("C:\\Program Files\\haha point\\config.xml");
+        File fileDir = new File("D:\\Program Files\\haha point");
+        File file = new File("D:\\Program Files\\haha point\\config.xml");
         file.setReadable(true);//设置可读权限
         file.setWritable(true);//设置可写权限
         if (!file.exists()) {
@@ -35,8 +35,8 @@ public class ConfigFileDao {
 
     public DataConfig loadDataInfo() throws IOException {
         //读取文件(缓存字节流)
-        File fileDir = new File("C:\\Program Files\\haha point");
-        File file = new File("C:\\Program Files\\haha point\\config.xml");
+        File fileDir = new File("D:\\Program Files\\haha point");
+        File file = new File("D:\\Program Files\\haha point\\config.xml");
         file.setReadable(true);//设置可读权限
         file.setWritable(true);//设置可写权限
         if (!file.exists()) {

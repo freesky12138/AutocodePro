@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.Locale;
+
 /**
  * @author hyp 1774549483@qq.com
  * @version v1.0
@@ -16,6 +18,13 @@ public class ToolUtils {
     }
 
     public static String toHump(String in) {
+
+        if(!in.contains("_")){
+            char temp= (char) (in.charAt(0) + 32);
+            return temp+in.substring(1,in.length());
+        }
+
+        in = in.toLowerCase();
         String out = "";
         boolean nextBig = false;
         for (int i = 0; i < in.length(); i++) {
